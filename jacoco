@@ -9,6 +9,22 @@ export JAVA_OPTS="-javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco--
 
 
 
+       jacoco(
+    execPattern: '**/jacoco.exec',
+    classPattern: '**/classes',
+    sourcePattern: '**/src/main/java',
+    inclusionPattern: '**/com/example/**',
+    changeBuildStatus: true,
+    failBuildOnBadCoverage: true,
+    jacocoReportPath: 'coverage-report',
+    jacocoServerPort: 6988,
+    jacocoServerHost: 'ipadresss'
+)
+          
+
+
+
+
 
 
 
