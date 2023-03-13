@@ -3,6 +3,11 @@
 export JAVA_OPTS="-javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco-$TIMESTAMP.exec,append=true,..."
 
 
+
+
+export CATALINA_OPTS="$CATALINA_OPTS -Djava.net.preferIPv4Stack=true -javaagent:/opt/tomcat8/jacoco/lib/jacocoagent.jar=output=tcpserver,address=0.0.0.0,port=6988,classdumpdir=/opt/tomcat8/jacoco/dump "
+
+
 ##in tomcat setenv.sh for destfile
 export JAVA_OPTS="-javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco--$(date +"%Y-%m-%d_%H-%M-%S").exec,append=true,..."
 
