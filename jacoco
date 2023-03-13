@@ -7,6 +7,8 @@ export JAVA_OPTS="-javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco-$
 export JAVA_OPTS="-javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco--$(date +"%Y-%m-%d_%H-%M-%S").exec,append=true,..."
 
 
+wget https://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.5.8.201207111220/jacoco-0.5.8.201207111220.zip
+
 
 
        jacoco(
