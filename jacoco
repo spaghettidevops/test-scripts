@@ -16,6 +16,19 @@ wget https://search.maven.org/remotecontent?filepath=org/jacoco/jacoco/0.5.8.201
 
 
 
+post {
+success {
+build job: "<nome_job>", parameters: [
+[$class: 'StringParameterValue', name: 'env', value: 'ambiente1'],
+[$class: 'StringParameterValue', name: 'app', value: 'app1']
+]
+}
+}
+
+
+
+
+
        jacoco(
     execPattern: '**/jacoco.exec',
     classPattern: '**/classes',
