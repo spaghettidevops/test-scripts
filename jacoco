@@ -1,4 +1,33 @@
 
+</dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>false</enabled></snapshots>
+    </repository>
+  </repositories>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ##in tomcat setenv.sh for destfile
 export JAVA_OPTS="-javaagent:/path/to/jacocoagent.jar=destfile=/path/to/jacoco-$TIMESTAMP.exec,append=true,..."
 
