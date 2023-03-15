@@ -15,7 +15,77 @@
 
 
 
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+<modelVersion>4.0.0</modelVersion>
+
+<groupId>com.example</groupId>
+<artifactId>${env.projectName}</artifactId>
+<version>1.0</version>
+
+  <dependencies>
+    <!-- Jacoco Maven plugin -->
+    <dependency>
+      <groupId>org.jacoco</groupId>
+      <artifactId>jacoco-maven-plugin</artifactId>
+      <version>0.5.10.201208310627</version>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <releases><enabled>true</enabled></releases>
+      <snapshots><enabled>false</enabled></snapshots>
+    </repository>
+  </repositories>
+  <properties>
+    <jacoco.address>${ipAddress}</jacoco.address>
+    <jacoco.port>${port}</jacoco.port>
+    <jacoco.classdumpdir>/opt/jacoco/dump</jacoco.classdumpdir>
+  </properties>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>0.5.10.201208310627</version>
+        <executions>
+          <execution>
+            <id>dump</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>dump</goal>
+            </goals>
+            <configuration>
+              <address>${jacoco.address}</address>
+              <destFile>./jacoco.exec</destFile>
+              <port>${jacoco.port}</port>
+              <reset>false</reset>
+              <append>false</append>
+            </configuration>
+          </execution>
+          <execution>
+            <id>default-report</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+            <configuration>
+              <dataFile>./jacoco.exec</dataFile>
+              <outputDirectory>./jacoco-report</outputDirectory>
+              <classDirectories>
+                <directory>./extracted_war/WEB-INF/classes</directory>
+              </classDirectories>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
 
 
 
