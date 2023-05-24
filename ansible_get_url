@@ -1,0 +1,10 @@
+vars_files:
+  - vars/secret.yml
+
+tasks:
+  - name: Install Custom Plugins
+    get_url:
+      url: "{{ item }}"
+      dest: /path/to/sonarqube/extensions/plugins/
+      headers: "{{ (item == 'https://nexus-url/plugin.jar') | ternary({'Private-Token': 'YOUR_GITLAB_TOKEN'}, {}) }}"
+    with_items: "{{ sonar_plugins }}"
