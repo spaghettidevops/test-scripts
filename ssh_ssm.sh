@@ -32,23 +32,27 @@ export AWS_DEFAULT_REGION='eu-west-1'
 
 ec2_instance_id="$1"
 ssh_user="$2"
-ssh_port="$3"
-ssh_public_key_path="$4"
+ssh_public_key_path="$3"
+aws_profile="$4"
 
-instance_availability_zone="$(aws ec2 describe-instances \
+aws_command="aws"
+if [[ -n "$aws_profile" ]]; then
+    aws_command="aws --profile $aws_profile"
+fi
+
+instance_availability_zone="$($aws_command ec2 describe-instances \
     --instance-id "$ec2_instance_id" \
     --query "Reservations[0].Instances[0].Placement.AvailabilityZone" \
     --output text)"
 
 >/dev/stderr echo "Add public key ${ssh_public_key_path} for ${ssh_user} at instance ${ec2_instance_id} for 60 seconds"
-aws ec2-instance-connect send-ssh-public-key  \
+$aws_command ec2-instance-connect send-ssh-public-key  \
   --instance-id "$ec2_instance_id" \
   --instance-os-user "$ssh_user" \
   --ssh-public-key "file://$ssh_public_key_path" \
   --availability-zone "$instance_availability_zone"
 
 >/dev/stderr echo "Start ssm session to instance ${ec2_instance_id}"
-aws ssm start-session \
+$aws_command ssm start-session \
   --target "${ec2_instance_id}" \
-  --document-name 'AWS-StartSSHSession' \
-  --parameters "portNumber=${ssh_port}"
+  --document-name 'AWS-StartSSHSession'
