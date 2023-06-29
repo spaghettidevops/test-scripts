@@ -1,1 +1,7 @@
 aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,Tags[?Key==`Name`].Value | [0]]' --output table --region eu-west-1
+
+
+##script
+#!/bin/bash
+profile="${1:-default}"
+aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,Tags[?Key==`Name`].Value | [0]]' --output table --region eu-west-1 --profile $profile
