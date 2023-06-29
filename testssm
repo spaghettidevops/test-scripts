@@ -1,0 +1,1 @@
+aws ssm copy --region your-region --source-local-file /path/to/source/file --destination-instance-id instance-id --destination-target /path/to/destination/file
