@@ -1,0 +1,4 @@
+Host i-*
+  IdentityFile ~/.ssh/id_rsa
+  ProxyCommand bash -c "read -p 'AWS profile: ' aws_profile; ~/.ssh/nome_script.sh %h %r %p ~/.ssh/id_rsa.pub \$aws_profile"
+  StrictHostKeyChecking no
