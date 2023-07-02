@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-
+#aws_profile="$(cat "$USERPROFILE/aws_profile.tmp")" 
 # Add this to SSH config  in ~/.ssh/config
 #   host i-* mi-*
 #     IdentityFile ~/.ssh/id_rsa
