@@ -1,0 +1,15 @@
+ |
+                attempt_counter=0
+                max_attempts=5
+                for service in grafana-server prometheus; do 
+                  sudo systemctl stop $service
+                  while sudo systemctl is-active --quiet $service && [[ $attempt_counter -lt $max_attempts ]]; do 
+                    sleep 5
+                    ((attempt_counter++))
+                  done
+                  if [[ $attempt_counter -eq $max_attempts ]]; then
+                    echo "$service could not be stopped after $max_attempts attempts."
+                    exit 1
+                  fi
+                  attempt_counter=0
+                done
