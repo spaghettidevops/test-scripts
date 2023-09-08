@@ -1,0 +1,143 @@
+1. Log into PostgreSQL as the 'postgres' user
+
+Command:
+
+bash
+
+sudo -u postgres psql
+Explanation: This command allows you to become the postgres user and access the PostgreSQL interactive terminal (psql).
+
+2. List all users/roles
+
+Command:
+
+sql
+
+\du
+Explanation: Once inside the psql terminal, this command lists all roles/users and their attributes.
+
+3. Create a new user
+
+Command:
+
+sql
+
+CREATE USER new_username WITH PASSWORD 'password';
+Explanation: This command creates a new user with the specified username and password.
+
+4. Grant privileges to a user
+
+Command:
+
+sql
+
+GRANT ALL PRIVILEGES ON DATABASE database_name TO new_username;
+Explanation: This command grants all privileges on a specific database to the specified user.
+
+5. Alter user properties
+
+Command:
+
+sql
+
+ALTER USER username WITH OPTION;
+Replace OPTION with desired attributes, like SUPERUSER, CREATEDB, PASSWORD 'new_password', etc.
+
+Explanation: This command modifies user properties. For instance, you can change the user's password, grant them superuser status, and more.
+
+6. Drop/Delete a user
+
+Command:
+
+sql
+
+DROP USER username;
+Explanation: This command deletes the specified user.
+
+7. List all databases
+
+Command:
+
+sql
+
+\l
+Explanation: This command lists all databases in the PostgreSQL instance.
+
+8. Connect to a specific database
+
+Command:
+
+sql
+
+\c database_name
+Explanation: This command allows you to connect and interact with a specific database.
+
+9. Exit the PostgreSQL terminal
+
+Command:
+
+sql
+
+\q
+Explanation: This command allows you to exit the psql terminal.
+
+10. PostgreSQL configuration file locations
+
+The main configuration files are usually stored in the PostgreSQL data directory. To find the data directory:
+
+Command:
+
+sudo -u postgres pg_config --datadir
+Explanation: This command shows the path to the PostgreSQL data directory. You can then find files like postgresql.conf, pg_hba.conf, and pg_ident.conf in that directory, which control various aspects of PostgreSQL configuration, including user authentication.
+
+
+
+
+#conf files
+
+1. postgresql.conf
+
+This is the main configuration file for PostgreSQL. It contains a variety of settings that determine the behavior of the PostgreSQL server. Some of the primary settings you can find in this file include:
+
+listen_addresses: Determines which IP address(es) the server will listen on.
+port: The port the server listens on.
+max_connections: Maximum number of concurrent connections.
+shared_buffers: Amount of memory the database cache uses.
+logging_collector: Whether to use a separate process for logging.
+log_directory and log_filename: Location and naming convention for the log files.
+datestyle, timezone, and other localization settings.
+Various performance tuning parameters.
+2. pg_hba.conf
+
+This file controls client authentication. It determines who can connect to the server and how. Each line in the file is a rule. Some of the primary components of these rules include:
+
+Type of the connection (local, host, etc.).
+Database name.
+User name.
+IP address range (for host rules).
+Authentication method (md5, password, peer, trust, etc.).
+Example:
+
+sql
+Copy code
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+host    all             all             127.0.0.1/32            md5
+This rule allows all users to connect to all databases from the address 127.0.0.1 using password-based (md5) authentication.
+
+3. pg_ident.conf
+
+This file is used for user name mapping. It's most commonly used in conjunction with the peer and ident authentication methods. Entries in this file allow you to map operating system users to PostgreSQL users. Each line typically includes:
+
+A map name.
+System user name.
+PostgreSQL user name.
+Example:
+
+bash
+Copy code
+# MAPNAME       SYSTEM-USERNAME         PG-USERNAME
+mymap           root                    postgres
+In this example, when a system user named "root" tries to connect, it'll be treated as if the PostgreSQL user "postgres" is connecting.
+
+For any changes in postgresql.conf, pg_hba.conf, and pg_ident.conf to take effect, you typically need to reload or restart the PostgreSQL server.
+
