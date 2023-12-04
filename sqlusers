@@ -1,0 +1,22 @@
+
+
+
+USE [nome_database]; -- dbname
+
+SELECT 
+    DP.name AS username,
+    MAX(SP.last_login_time) AS last_login -- Ottenere l'ultimo login
+FROM 
+    sys.database_principals AS DP
+LEFT JOIN 
+    sys.dm_exec_sessions AS SP ON DP.sid = SP.security_id
+WHERE 
+    DP.type NOT IN ('A', 'G', 'R', 'X')
+    AND DP.sid IS NOT NULL
+    AND DP.name != 'guest'
+GROUP BY 
+    DP.name
+ORDER BY 
+    username;
+---
+
