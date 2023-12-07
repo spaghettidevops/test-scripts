@@ -1,0 +1,15 @@
+
+SELECT 
+    SP.name AS ServerLogin,
+    DP.name AS DatabaseUser,
+    DP.type_desc AS UserType
+FROM 
+    sys.server_principals AS SP
+INNER JOIN 
+    sys.database_principals AS DP ON SP.sid = DP.sid
+WHERE 
+    DP.type IN ('S', 'U', 'G') AND -- Filtra per i tipi di principali (utenti SQL, utenti Windows, ruoli)
+    SP.type IN ('S', 'U', 'G') AND -- Filtra per i tipi di login (logins SQL, logins Windows, ruoli)
+    SP.name NOT IN ('sa', 'public', 'sysssislog') -- Escludi i login di sistema
+ORDER BY 
+    SP.name;
