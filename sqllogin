@@ -1,0 +1,27 @@
+
+SELECT 
+    sp.name AS LoginName, 
+    sp.type_desc AS LoginType, 
+    sp.create_date AS LoginCreateDate, 
+    sp.modify_date AS LoginModifyDate, 
+    dp.name AS UserName, 
+    dp.type_desc AS UserType, 
+    dp.create_date AS UserCreateDate, 
+    dp.modify_date AS UserModifyDate, 
+    DB_NAME(dp.default_database_name) AS DefaultDBName
+FROM 
+    sys.server_principals sp
+LEFT JOIN 
+    sys.server_permissions perm ON perm.grantee_principal_id = sp.principal_id
+LEFT JOIN 
+    sys.syslogins sl ON sl.sid = sp.sid
+CROSS APPLY 
+    (SELECT dp.name, dp.type_desc, dp.create_date, dp.modify_date, dp.default_database_name
+     FROM sys.database_principals dp
+     WHERE dp.sid = sp.sid AND dp.type NOT IN ('A', 'G', 'R', 'X')) AS dp
+WHERE 
+    sp.type IN ('S', 'U', 'G') AND 
+    sp.name NOT IN ('sa', 'public', 'sysssislog')
+ORDER BY 
+    LoginName;
+```
