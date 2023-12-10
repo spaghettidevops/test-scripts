@@ -1,0 +1,23 @@
+SELECT table_schema, 
+       table_name 
+FROM information_schema.tables 
+WHERE table_schema NOT IN ('information_schema', 'pg_catalog');
+
+
+
+--------------------------------------------------
+SELECT table_schema, table_name, privilege_type
+FROM information_schema.table_privileges
+WHERE grantee = 'joe.black';
+
+--------------------------------------------------
+
+GRANT SELECT ON ALL TABLES IN SCHEMA schemaname TO joe.black;
+
+
+-----------------------------------------------------
+
+CREATE ROLE joe.black LOGIN PASSWORD 'good_password';
+
+----------------------------------------------------
+
