@@ -1,0 +1,37 @@
+Genera una nuova chiave privata e CSR con SAN utilizzando la configurazione da san.cnf:
+
+openssl req -new -newkey rsa:2048 -nodes -keyout server.key.pem -out server.csr.pem -config san.cnf
+Genera un certificato self-signed dalla CSR:
+
+sh
+
+openssl x509 -req -days 365 -in server.csr.pem -signkey server.key.pem -out server.cert.pem -extensions v3_req -extfile san.cnf
+Crea un keystore PKCS#12 che contiene sia la chiave privata che il certificato (senza password):
+
+sh
+
+openssl pkcs12 -export -in server.cert.pem -inkey server.key.pem -out server.keystore.p12 -name "tomcat" -passout pass:
+In questi comandi:
+
+server.key.pem è la chiave privata.
+server.csr.pem è la CSR.
+server.cert.pem è il certificato self-signed.
+server.keystore.p12 è il keystore PKCS#12.
+
+
+[ req ]
+default_bits       = 2048
+prompt             = no
+default_md         = sha256
+distinguished_name = req_distinguished_name
+req_extensions     = req_ext
+
+[ req_distinguished_name ]
+CN = example.com
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = example.com
+DNS.2 = www.example.com
