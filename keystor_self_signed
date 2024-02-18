@@ -58,6 +58,9 @@ subjectAltName = @alt_names
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 extendedKeyUsage = serverAuth, clientAuth
 
+[ alt_names ]
+DNS.1 = example.com
+DNS.2 = www.example.com
 
 
 'use strict';
@@ -76,9 +79,19 @@ exports.handler = (event, context, callback) => {
     callback(null, response);
 };
 
+function handler(event) {
+    var response = event.response;
+    var headers = response.headers;
 
+    // Verifica se esiste l'header Location
+    if (headers['location']) {
+        var locationHeader = headers['location'].value;
+        // Modifica l'header Location se contiene "/uaa/sso/logout"
+        if (locationHeader.includes("/uaa/sso/logout")) {
+            headers['location'].value = locationHeader.replace("/uaa/sso/logout", "/sso/logout");
+        }
+    }
 
+    return response;
+}
 
-[ alt_names ]
-DNS.1 = example.com
-DNS.2 = www.example.com
