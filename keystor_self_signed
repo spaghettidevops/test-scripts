@@ -43,3 +43,21 @@ openssl pkcs12 -in /path/to/keystore.p12 -clcerts -nokeys -out extracted-certifi
 #check the cerificate
 openssl x509 -in /path/to/certificate.pem -text -noout
 
+[ req ]
+default_bits       = 2048
+prompt             = no
+default_md         = sha256
+distinguished_name = req_distinguished_name
+req_extensions     = v3_req  # Questa deve corrispondere alla sezione sotto
+
+[ req_distinguished_name ]
+CN = example.com
+
+[ v3_req ]  # Questa sezione deve essere presente nel file san.cnf
+subjectAltName = @alt_names
+keyUsage = nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth, clientAuth
+
+[ alt_names ]
+DNS.1 = example.com
+DNS.2 = www.example.com
