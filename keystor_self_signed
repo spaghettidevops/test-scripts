@@ -58,6 +58,27 @@ subjectAltName = @alt_names
 keyUsage = nonRepudiation, digitalSignature, keyEncipherment
 extendedKeyUsage = serverAuth, clientAuth
 
+
+
+'use strict';
+exports.handler = (event, context, callback) => {
+    const response = event.Records[0].cf.response;
+    const headers = response.headers;
+
+    // Controlla se esiste l'header Location e modificalo se necessario
+    if (headers['location']) {
+        const locationHeader = headers['location'][0].value;
+        if (locationHeader.includes("/uaa/sso/logout")) {
+            headers['location'][0].value = locationHeader.replace("/uaa/sso/logout", "/sso/logout");
+        }
+    }
+
+    callback(null, response);
+};
+
+
+
+
 [ alt_names ]
 DNS.1 = example.com
 DNS.2 = www.example.com
