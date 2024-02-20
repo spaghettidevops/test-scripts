@@ -1,0 +1,54 @@
+OpenSSL
+Visualizza dettagli del certificato di un server:
+
+sh
+Copy code
+openssl s_client -connect hostname:porta -showcerts
+Sostituisci hostname con il nome del dominio o l'indirizzo IP del server.
+Sostituisci porta con la porta su cui il server ascolta (di solito 443 per HTTPS).
+Visualizza il certificato in formato PEM:
+
+sh
+Copy code
+openssl s_client -connect hostname:porta | openssl x509 -text -noout
+Verifica la catena di certificazione di un server:
+
+sh
+Copy code
+openssl s_client -connect hostname:porta -CAfile cacert.pem
+cacert.pem dovrebbe essere il file contenente i certificati CA fidati necessari per la verifica.
+Converti un certificato da DER a PEM:
+
+sh
+Copy code
+openssl x509 -inform der -in certificato.der -out certificato.pem
+Verifica un certificato contro una CA:
+
+sh
+Copy code
+openssl verify -CAfile cacert.pem certificato.pem
+Curl
+Testa un endpoint HTTPS con validazione SSL:
+
+sh
+Copy code
+curl https://hostname
+Questo comando fallirà se ci sono problemi di validità del certificato.
+Testa un endpoint HTTPS senza validazione SSL (non sicuro):
+
+sh
+Copy code
+curl -k https://hostname
+L'opzione -k o --insecure permette a curl di completare la richiesta ignorando gli errori di validazione del certificato.
+Salva il certificato di un server in un file:
+
+sh
+Copy code
+echo | openssl s_client -connect hostname:porta | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > certificato.pem
+Questo comando estrae il certificato del server e lo salva in un file certificato.pem.
+Invia una richiesta con un certo header:
+
+sh
+Copy code
+curl -H "Nome-Header: Valore" https://hostname
+Utilizza -H per aggiungere header personalizzati alle tue richieste.
