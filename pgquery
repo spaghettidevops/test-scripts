@@ -1,0 +1,9 @@
+SELECT 
+    rolname AS "Username",
+    rolvaliduntil AS "Password Expiration",
+    CASE 
+        WHEN rolcanlogin THEN 'Yes' 
+        ELSE 'No' 
+    END AS "Can Login"
+FROM 
+    pg_catalog.pg_authid;
