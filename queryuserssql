@@ -1,0 +1,11 @@
+SELECT 
+    name AS [Username],
+    type_desc AS [Account Type],
+    create_date AS [Created On],
+    modify_date AS [Last Modified On],
+    is_disabled AS [Is Disabled],
+    is_policy_checked AS [Password Policy Enforced],
+    is_expiration_checked AS [Password Expiration Enforced],
+    is_must_change AS [Must Change Password]
+FROM 
+    sys.sql_logins;
