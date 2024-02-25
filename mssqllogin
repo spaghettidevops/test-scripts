@@ -1,0 +1,21 @@
+SELECT 
+    name AS [Username],
+    type_desc AS [Account Type],
+    create_date AS [Created On],
+    modify_date AS [Last Modified On],
+    is_disabled AS [Is Disabled],
+    is_policy_checked AS [Password Policy Enforced],
+    is_expiration_checked AS [Password Expiration Enforced],
+    is_must_change AS [Must Change Password]
+FROM 
+    sys.sql_logins;
+SELECT 
+    name AS [Name],
+    type_desc AS [Type],
+    create_date AS [Created On],
+    modify_date AS [Last Modified On],
+    is_disabled AS [Is Disabled]
+FROM 
+    sys.server_principals
+WHERE 
+    type IN ('S', 'U', 'G', 'R'); -- S = SQL login, U = Windows login, G = Windows group, R = Server role
